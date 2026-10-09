@@ -1,38 +1,134 @@
-"""check_citations.py - STUDENT IMPLEMENTS `check`.   Runs INSIDE the sandbox (standard library only).
-
-research.py uploads this file to the sandbox and the lead agent runs it with the `execute` tool:
-    python3 /tmp/work/research/check_citations.py [report.md] [sources.json]
-It must exit 0 and print "OK: ..." when the report is consistent, else print each problem and exit 1.
-"""
+"""Citation consistency validator. Uses only the Python standard library."""
 import json
+import re
 import sys
 
 REPORT = "/tmp/work/report/report.md"
 SOURCES = "/tmp/work/research/sources.json"
 
+_REF_HEADING = re.compile(r"(?m)^##[ \t]+References[ \t]*$")
+_CODE = re.compile(r"(```.*?```|`[^`\n]*`)", re.DOTALL)
+_CITATION = re.compile(r"\[(\d+(?:\s*[,–-]\s*\d+)*)\](?!\s*\()")
+_REF_LINE = re.compile(r"^\s*\[(\d+)\](?:\s+|$)")
+_URL = re.compile(r"https?://[^\s<>]+", re.IGNORECASE)
+
+
+def _citation_numbers(group):
+    """Expand comma-separated citation numbers and ranges without unbounded allocation."""
+    numbers = []
+    for part in re.split(r"\s*,\s*", group):
+        span = re.fullmatch(r"(\d+)\s*[–-]\s*(\d+)", part)
+        if not span:
+            numbers.append(int(part))
+            continue
+        start, end = map(int, span.groups())
+        if end < start:
+            numbers.extend((start, end))
+        elif end - start <= 500:
+            numbers.extend(range(start, end + 1))
+        else:
+            numbers.extend((start, end))
+    return numbers
+
+
+def _body_citations(body):
+    """Find bracket citations outside inline/fenced code and Markdown links."""
+    parts = _CODE.split(body)
+    citations = set()
+    for index, part in enumerate(parts):
+        if index % 2:
+            continue
+        for match in _CITATION.finditer(part):
+            citations.update(_citation_numbers(match.group(1)))
+    return citations
+
+
+def _reference_urls(line):
+    urls = []
+    for match in _URL.finditer(line):
+        url = match.group(0).rstrip(".,;:!?\"")
+        urls.append(url)
+    return urls
+
 
 def check(report_text, sources):
-    """Return a list of problem strings (empty list = OK).
+    """Return every citation/catalog/reference inconsistency found in the report."""
+    problems = []
+    if not isinstance(sources, list):
+        return ["sources.json must contain a JSON list"]
+    if not sources:
+        return ["no sources in sources.json"]
 
-    PSEUDO-CODE:
-      problems = []
-      if sources is empty: return ["no sources in sources.json"]
-      for each source entry:
-          n must be an int                       -> problem if not
-          url must start with http:// or https://-> problem if not
-          the same url must not appear twice     -> problem if duplicated
-      split report_text at the heading "## References":
-          body = text before it; if the heading is missing -> problem
-      cited = set of numbers found as [n] in the BODY only (not in the reference list; use a regex)
-      every number in `cited` must exist in sources -> problem "[n] cited but missing from sources.json"
-      every source number must be in `cited`        -> problem "source [n] never cited"
-      the lines of the References section that start with "[n]" (regex) are the reference lines:
-          every source needs exactly ONE reference line (none missing, no number twice, no number that is not a source)
-          each reference line holds exactly ONE http(s) URL and it must equal that source's url
-          (a line bundling several sources under one number is a problem)
-      return problems
-    """
-    raise NotImplementedError("TODO: implement check()")
+    by_number = {}
+    seen_urls = {}
+    for index, source in enumerate(sources, start=1):
+        if not isinstance(source, dict):
+            problems.append(f"source entry {index} must be an object")
+            continue
+
+        number = source.get("n")
+        valid_number = isinstance(number, int) and not isinstance(number, bool)
+        if not valid_number:
+            problems.append(f"source entry {index} has non-integer n")
+        elif number in by_number:
+            problems.append(f"duplicate source number [{number}] in sources.json")
+        else:
+            by_number[number] = source
+
+        url = source.get("url")
+        if not isinstance(url, str) or not url.startswith(("http://", "https://")):
+            problems.append(f"source [{number}] URL must start with http:// or https://")
+        elif url in seen_urls:
+            problems.append(f"duplicate URL in sources.json for [{number}] and [{seen_urls[url]}]")
+        else:
+            seen_urls[url] = number
+
+    heading_matches = list(_REF_HEADING.finditer(str(report_text or "")))
+    if not heading_matches:
+        problems.append("report is missing the ## References heading")
+        body = str(report_text or "")
+        references = ""
+    else:
+        if len(heading_matches) > 1:
+            problems.append("report must contain exactly one ## References heading")
+        heading = heading_matches[0]
+        body = str(report_text or "")[:heading.start()]
+        references = str(report_text or "")[heading.end():]
+
+    cited = _body_citations(body)
+    known_numbers = set(by_number)
+    for number in sorted(cited - known_numbers):
+        problems.append(f"[{number}] cited but missing from sources.json")
+    for number in sorted(known_numbers - cited):
+        problems.append(f"source [{number}] never cited")
+
+    reference_lines = []
+    for line in references.splitlines():
+        match = _REF_LINE.match(line)
+        if match:
+            reference_lines.append((int(match.group(1)), line))
+
+    counts = {}
+    for number, line in reference_lines:
+        counts[number] = counts.get(number, 0) + 1
+        if number not in by_number:
+            problems.append(f"reference [{number}] has no matching source in sources.json")
+        elif counts[number] > 1:
+            problems.append(f"duplicate reference line for [{number}]")
+
+        urls = _reference_urls(line)
+        if len(urls) != 1:
+            problems.append(f"reference [{number}] must contain exactly one URL (found {len(urls)})")
+        elif number in by_number:
+            expected = by_number[number].get("url")
+            if urls[0] != expected:
+                problems.append(f"reference [{number}] URL does not match sources.json")
+
+    for number in sorted(known_numbers):
+        if counts.get(number, 0) == 0:
+            problems.append(f"source [{number}] has no reference line")
+
+    return problems
 
 
 def main(argv):

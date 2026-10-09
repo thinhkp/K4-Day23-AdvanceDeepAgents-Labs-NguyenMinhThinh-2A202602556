@@ -1,0 +1,74 @@
+[
+  {
+    "n": 1,
+    "id": "https://www.ijcai.org/proceedings/2026/0627.pdf",
+    "url": "https://www.ijcai.org/proceedings/2026/0627.pdf",
+    "date": "n.d.",
+    "title": "Mapping the Efficiency Landscape of Small Language Models",
+    "source": "web"
+  },
+  {
+    "n": 2,
+    "id": "https://artificialanalysis.ai/articles/mobile-phone-intelligence-inference",
+    "url": "https://artificialanalysis.ai/articles/mobile-phone-intelligence-inference",
+    "date": "2026-08-24",
+    "title": "Intelligence at pocket scale: Benchmarking small models and mobile phones",
+    "source": "web"
+  },
+  {
+    "n": 3,
+    "id": "2409.17372",
+    "url": "https://arxiv.org/abs/2409.17372",
+    "date": "2024-09-25",
+    "title": "Search for Efficient Large Language Models",
+    "source": "arxiv"
+  },
+  {
+    "n": 4,
+    "id": "2409.01990",
+    "url": "https://huggingface.co/papers/2409.01990",
+    "date": "2024-09-03",
+    "title": "Contemporary Model Compression on Large Language Models Inference",
+    "source": "hf-search"
+  },
+  {
+    "n": 5,
+    "id": "2412.11629",
+    "url": "https://huggingface.co/papers/2412.11629",
+    "date": "2024-12-16",
+    "title": "QPruner: Probabilistic Decision Quantization for Structured Pruning in Large Language Models",
+    "source": "hf-search"
+  },
+  {
+    "n": 6,
+    "id": "https://par.nsf.gov/servlets/purl/10653860",
+    "url": "https://par.nsf.gov/servlets/purl/10653860",
+    "date": "n.d.",
+    "title": "Tiny Models, Tough Limits Benchmarking and Optimizing Small Language Models for Edge Deployment",
+    "source": "web"
+  },
+  {
+    "n": 7,
+    "id": "http://www.arxiv.org/abs/2604.10152",
+    "url": "http://www.arxiv.org/abs/2604.10152",
+    "date": "2026-04-10",
+    "title": "SpecMoE: A Fast and Efficient Mixture-of-Experts Inference via Self-Assisted Speculative Decoding",
+    "source": "web"
+  },
+  {
+    "n": 8,
+    "id": "https://arxiv.org/html/2605.00342v1",
+    "url": "https://arxiv.org/html/2605.00342v1",
+    "date": "2026-05-01",
+    "title": "Making Every Verified Token Count: Adaptive Verification for MoE Speculative Decoding",
+    "source": "web"
+  },
+  {
+    "n": 9,
+    "id": "2411.09944",
+    "url": "https://huggingface.co/papers/2411.09944",
+    "date": "2024-11-14",
+    "title": "SlimLM: An Efficient Small Language Model for On-Device Document Assistance",
+    "source": "hf-search"
+  }
+]

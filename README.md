@@ -69,6 +69,26 @@ pip install -r requirements.txt
 cp .env.example .env                                     # rồi điền khóa CỦA BẠN
 ```
 
+Trên Windows PowerShell, dùng:
+
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+Copy-Item .env.example .env
+```
+
+Với Google AI Studio và Docker, cấu hình `.env` theo mẫu sau rồi điền khóa của riêng bạn:
+
+```ini
+LAB_MODEL=google_genai:gemini-3.1-flash-lite
+GOOGLE_API_KEY=<Google AI Studio API key>
+SANDBOX=docker
+SANDBOX_IMAGE=python:3.12-slim
+```
+
+Để chạy sandbox cục bộ, cần cài và khởi động Docker Desktop trước khi chạy `research.py`.
+
 Bạn cần ba loại khóa (điền vào `.env`, **không bao giờ commit** `.env`):
 
 | Khóa | Lấy ở đâu | Ghi chú |
@@ -95,6 +115,8 @@ Kết quả nằm ở `reports/survey-about-world-model.md` cùng `.sources.json
 ## 6. Chủ đề và nộp bài
 
 - Chạy đủ **5 chủ đề** trong [`topics.md`](topics.md), mỗi chủ đề một lần.
+- Đọc báo cáo chính `<slug>.md` trước; các trích dẫn `[n]` nối tới mục tương ứng trong `## References`. Tệp `<slug>.sources.json` lưu dữ liệu nguồn dùng để kiểm tra, còn `<slug>.meta.json` ghi model, số lần giao việc, nhóm nguồn và số nguồn.
+- Mỗi chủ đề phải có đủ ba tệp `.md`, `.sources.json` và `.meta.json` trong `reports/`.
 - Commit mã nguồn và toàn bộ `reports/`, đẩy lên một **public repo** GitHub và nộp link.
 - Kiểm tra trước khi nộp: chạy **`python self_check.py`** (không tốn token): nó kiểm tra đủ 5 báo cáo, `meta.json`, trích dẫn bằng `check_citations.py` của bạn, và không có `.env`/khóa nào trong git.
 - Cách chấm: xem [`RUBRIC.md`](RUBRIC.md).

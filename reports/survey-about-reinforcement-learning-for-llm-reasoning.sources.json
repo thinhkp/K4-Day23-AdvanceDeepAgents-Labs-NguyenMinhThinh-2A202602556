@@ -1,0 +1,74 @@
+[
+  {
+    "n": 1,
+    "id": "2412.18279",
+    "url": "https://arxiv.org/abs/2412.18279",
+    "date": "2024-12-24",
+    "title": "Improving Multi-Step Reasoning Abilities of Large Language Models with Direct Advantage Policy Optimization",
+    "source": "arxiv"
+  },
+  {
+    "n": 2,
+    "id": "2410.15115",
+    "url": "https://huggingface.co/papers/2410.15115",
+    "date": "2024-10-19",
+    "title": "On Designing Effective RL Reward at Training Time for LLM Reasoning",
+    "source": "hf-search"
+  },
+  {
+    "n": 3,
+    "id": "2510.01925",
+    "url": "https://huggingface.co/papers/2510.01925",
+    "date": "2025-10-02",
+    "title": "Enhancing Large Language Model Reasoning with Reward Models: An Analytical Survey",
+    "source": "hf-search"
+  },
+  {
+    "n": 4,
+    "id": "https://arxiv.org/html/2503.24235v3",
+    "url": "https://arxiv.org/html/2503.24235v3",
+    "date": "2025-05-04",
+    "title": "A Survey on Test-Time Scaling in Large Language Models: What, How, Where, and How Well",
+    "source": "web"
+  },
+  {
+    "n": 5,
+    "id": "https://arxiv.org/html/2501.10069",
+    "url": "https://arxiv.org/html/2501.10069",
+    "date": "n.d.",
+    "title": "A Survey on LLM Test-Time Compute via Search: Tasks, LLM Profiling, Search Algorithms, and Relevant Frameworks",
+    "source": "web"
+  },
+  {
+    "n": 6,
+    "id": "https://testtimescaling.github.io/",
+    "url": "https://testtimescaling.github.io/",
+    "date": "n.d.",
+    "title": "What, How, Where, and How Well? A Survey on Test-Time Scaling",
+    "source": "web"
+  },
+  {
+    "n": 7,
+    "id": "https://arxiv.org/abs/2605.02964",
+    "url": "https://arxiv.org/abs/2605.02964",
+    "date": "2026-05-03",
+    "title": "Reward Hacking Benchmark: Measuring Exploits in LLM Agents with Tool Use",
+    "source": "web"
+  },
+  {
+    "n": 8,
+    "id": "https://link.springer.com/article/10.1007/s44163-026-01980-z",
+    "url": "https://link.springer.com/article/10.1007/s44163-026-01980-z",
+    "date": "2026-08-17",
+    "title": "A survey of reward hacking in agentic large language model systems",
+    "source": "web"
+  },
+  {
+    "n": 9,
+    "id": "2601.18533",
+    "url": "https://arxiv.org/abs/2601.18533",
+    "date": "2026-01-26",
+    "title": "From Verifiable Dot to Reward Chain: Harnessing Verifiable Reference-based Rewards for Reinforcement Learning of Open-ended Generation",
+    "source": "arxiv"
+  }
+]
